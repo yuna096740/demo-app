@@ -1,0 +1,31 @@
+name: demo-app
+services:
+  app:
+    build: 
+      dockerfile: ./.docker/local/python/Dockerfile
+      context: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    working_dir: /app
+    command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql: 
+    build:
+      dockerfile: ./.docker/local/mysql/Dockerfile
+      context: .
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    healthcheck:
+      test: mysqladmin ping -h ${DATABASE_HOST} -u ${DATABASE_USER} --password=${DATABASE_PASSWORD}
+      interval: 1s
+      retries: 20

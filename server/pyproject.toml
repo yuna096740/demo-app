@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "demo-app-server"
+version = "1.1.4"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{ include = "app" }]
+
+[tool.poetry.dependencies]
+python = "^3.10,<3.12"
+fastapi = "^0.95.1"
+uvicorn = { extras = ["standard"], version = "^0.22.0" }
+starlette = "^0.26.1"
+python-dotenv = "^1.0.0"
+sqlalchemy = "^1.4.48"
+mysqlclient = "^2.1.1"
+pydantic = "^1.10.7"
+sse-starlette = "^1.6.1"
+google-api-python-client = "^2.86.0"
+langchain = "0.0.299"
+alembic = "^1.11.1"
+faiss-cpu = "^1.7.4"
+unstructured = "^0.6.8"
+tabulate = "^0.9.0"
+pdf2image = "^1.16.3"
+gunicorn = "^20.1.0"
+openai = "^0.27.8"
+firebase-admin = "^6.1.0"
+oslash = "^0.6.3"
+qdrant-client = "^1.2.0"
+uuid6 = "^2023.5.2"
+tiktoken = "^0.4.0"
+python-multipart = "^0.0.6"
+boto3 = "^1.27.1"
+opencv-python-headless = "^4.8.0.76"
+numpy = "^1.26.0"
+playwright = "^1.38.0"
+beautifulsoup4 = "^4.12.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
