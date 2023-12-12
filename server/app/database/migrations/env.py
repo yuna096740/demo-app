@@ -5,16 +5,20 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from sqlalchemy.engine import URL
 
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../../'))
+
 from app.settings.database import Base
 from app.settings.env import Env
 
 _database_url = URL.create(
-drivername="mysql+mysqldb",
-host=Env.DATABASE_HOST,
-port=Env.DATABASE_PORT,
-database=Env.DATABASE_NAME,
-username=Env.DATABASE_USER,
-password=Env.DATABASE_PASSWORD,
+    drivername="mysql+mysqldb",
+    host=Env.DATABASE_HOST,
+    port=Env.DATABASE_PORT,
+    database=Env.DATABASE_NAME,
+    username=Env.DATABASE_USER,
+    password=Env.DATABASE_PASSWORD,
 )
 
 # this is the Alembic Config object, which provides
@@ -90,3 +94,4 @@ if context.is_offline_mode():
 else:
     print("Running migrations online")
     run_migrations_online()
+

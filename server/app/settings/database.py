@@ -1,6 +1,6 @@
 from app.settings.env import Env
 from sqlalchemy import create_engine
-from sqlalchemy import URL
+from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 _database_url = URL.create(
