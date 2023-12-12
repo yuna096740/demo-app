@@ -1,6 +1,7 @@
 import datetime
 from sqlalchemy import Column, ForeignKey, DateTime, BigInteger, String, Boolean
 
+from pydantic import BaseModel
 from app.settings.database import Base
 
 class PostOrm(Base):
@@ -16,3 +17,13 @@ class PostOrm(Base):
         default=datetime.datetime.now,
         onupdate=datetime.datetime.now,
     )
+
+class Post(BaseModel):
+    id: int
+    title: str
+    detail: str
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
+    
+    class Config:
+        orm_mode = True
