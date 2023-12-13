@@ -1,4 +1,4 @@
-from fastapi import Depends, Request, HTTPException
+from fastapi import Depends, Request
 from typing import Annotated
 
 from sqlalchemy.orm import Session
@@ -32,17 +32,12 @@ class PostRepository:
         db.add(post)
         db.flush()
         return PostOrm.from_orm(post)
-    
+
+
     def get_posts(
         self,
         db: Annotated[Session, Depends(get_db)],
-        post_id: int,
     ):
-        post_orm = db.scalars(
-            (
-                select(PostOrm)
-                .filter(PostOrm.id == post_id)
-            )
-        ).all()
+        post_orm = db.query(PostOrm).all()
         
-        return PostOrm.from_orm(post_orm)
+        return post_orm

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from app.settings.database import Base
 
 class PostOrm(Base):
-    __table__ = "post"
+    __tablename__ = "post"
     
     id = Column(BigInteger, primary_key=True, nullable=False)
     title = Column(String(80), nullable=False)
