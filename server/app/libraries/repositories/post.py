@@ -1,4 +1,4 @@
-from fastapi import Depends, Request
+from fastapi import Depends, Request, HTTPException
 from typing import Annotated
 
 from sqlalchemy.orm import Session
@@ -10,34 +10,59 @@ from app.settings.database import get_db
 
 
 class PostRepository:
-    def create_post(
-        self,
-        db: Session,
-        post_id: int,
-        title: str,
-        detail: str,
-    ) -> Post:
-        post = db.scalars((
-            select(PostOrm)
-            .with_for_update()
-            .where(PostOrm.id == post_id)
-        )).one_or_none()
-        
-        if post is None:
-            post = PostOrm(
-                title=title,
-                detail=detail
-            )
-
-        db.add(post)
-        db.flush()
-        return PostOrm.from_orm(post)
-
-
     def get_posts(
         self,
         db: Annotated[Session, Depends(get_db)],
     ):
-        post_orm = db.query(PostOrm).all()
-        
+        post_orm = db.scalars((
+            select(PostOrm)
+        )).all()
         return post_orm
+
+
+    def create_post(
+        self,
+        db: Session,
+        title: str,
+        detail: str,
+    ) -> PostOrm:
+        exist_post = db.scalar((
+            select(PostOrm)
+            .filter(PostOrm.id == id)
+        )).one_or_none()
+        
+        if exist_post is None:
+            new_post = PostOrm(
+                title=title,
+                detail=detail,
+            )
+        db.add(new_post)
+        db.flush()
+        
+        post = new_post.title, new_post.detail
+        return post
+
+
+    def update_post(
+        self,
+        db: Session,
+        id: int,
+        title: str,
+        detail: str,
+    ):
+        exist_post = db.scalar((
+            select(PostOrm)
+            .filter(PostOrm.id == id)
+        ))
+
+        if exist_post is None:
+            return HTTPException(
+                status_code=404, detail="there is not same post"
+            )
+        else:
+            exist_post.title = title
+            exist_post.detail = detail
+        db.flush()
+
+        post = title, detail
+        return post

@@ -16,6 +16,18 @@ class PostRequest(BaseModel):
     created_at: datetime
     updated_at: datetime
 
+class CreatePostRequest(BaseModel):
+    title: str
+    detail: str
+
+class UpdatePostRequest(BaseModel):
+    id: int
+    title: str
+    detail: str
+
+class DeletePostRequest(BaseModel):
+    id: int
+
 
 class PostUseCase:
     def __init__(
@@ -41,3 +53,23 @@ class PostUseCase:
             post_list.append(post_data)
         
         return post_list
+    
+    def create_post(
+        self,
+        db: Session,
+        title: str,
+        detail: str,
+    ) -> CreatePostRequest:
+        post = self.post_repo.create_post(db, title, detail)
+        return post
+
+
+    def update_post(
+        self,
+        db: Session,
+        id: int,
+        title: str,
+        detail: str,
+    ) -> UpdatePostRequest:
+        post = self.post_repo.update_post(db, id, title, detail)
+        return post

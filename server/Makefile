@@ -33,7 +33,7 @@ setup:
 new-migration:
 	docker compose exec app bash -c "cd app/database && poetry run alembic revision -m "${NAME}""
 
-app-migrate:
+app-migrate: # ○
 	docker compose exec app bash -c "cd app/database && poetry run alembic upgrade head"
 
 app-drop:

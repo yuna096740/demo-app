@@ -14,7 +14,8 @@ services:
       mysql:
         condition: service_healthy
 
-  mysql: 
+  mysql:
+    container_name: demo-mysql
     build:
       dockerfile: ./.docker/local/mysql/Dockerfile
       context: .
