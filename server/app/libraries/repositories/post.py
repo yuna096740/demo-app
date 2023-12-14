@@ -36,6 +36,10 @@ class PostRepository:
                 title=title,
                 detail=detail,
             )
+        else:
+            return HTTPException(
+                status_code=404, detail="There Is Not Post"
+            )
         db.add(new_post)
         db.flush()
         
@@ -57,7 +61,7 @@ class PostRepository:
 
         if exist_post is None:
             return HTTPException(
-                status_code=404, detail="there is not same post"
+                status_code=404, detail="There Is Not Same Post"
             )
         else:
             exist_post.title = title
@@ -65,4 +69,26 @@ class PostRepository:
         db.flush()
 
         post = title, detail
+        return post
+
+
+    def delete_post(
+        self,
+        db: Session,
+        id: int,
+    ) -> int:
+        exist_post = db.scalar((
+            select(PostOrm)
+            .filter(PostOrm.id == id)
+        ))
+
+        if exist_post is None:
+            return HTTPException(
+                status_code=404, detail="There Is Not Post"
+            )
+        else:
+            db.delete(exist_post)
+            db.flush
+
+        post = "Success"
         return post

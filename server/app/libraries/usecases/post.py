@@ -73,3 +73,12 @@ class PostUseCase:
     ) -> UpdatePostRequest:
         post = self.post_repo.update_post(db, id, title, detail)
         return post
+
+
+    def delete_post(
+        self,
+        db: Session,
+        id: int,
+    ) -> DeletePostRequest:
+        post = self.post_repo.delete_post(db, id)
+        return post

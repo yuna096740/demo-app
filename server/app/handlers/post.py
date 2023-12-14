@@ -61,9 +61,20 @@ async def update_post(
     return update_post
 
 
-@router.post("/post/delete")
+@router.delete("/post/delete")
 async def delete_post(
-    request: Request,
+    db: Annotated[Session, Depends(get_db)],
+    post_usecase: Annotated[PostUseCase, Depends(PostUseCase)],
+    post_rq: DeletePostRequest,
 ):
-    pass
+    with SessionLocal.begin() as db:
+        _logger.info("Delete Post")
+        
+        post = post_usecase.delete_post(
+            db,
+            id=post_rq.id
+        )
+        delete_post = {"delete_post": post}
+
+    return delete_post
 
