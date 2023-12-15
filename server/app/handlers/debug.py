@@ -6,4 +6,4 @@ router = APIRouter()
 # アプリからの疎通確認用
 @router.get("/ping")
 def ping():
-    return {"data": {"message": "OK"}}
+    return {"data": "messageOK"}

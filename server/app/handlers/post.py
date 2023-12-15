@@ -1,8 +1,6 @@
-from fastapi import APIRouter, Request, Depends
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-import json
 import logging
 from typing import Annotated
 
@@ -77,4 +75,3 @@ async def delete_post(
         delete_post = {"delete_post": post}
 
     return delete_post
-
