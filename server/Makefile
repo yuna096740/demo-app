@@ -15,8 +15,8 @@ setup:
 	@make up
 
 # DBのマイグレーションを実行
-# migrate:
-# 	cd app/database && poetry run alembic upgrade head
+migrate:
+	cd app/database && poetry run alembic upgrade head
 
 # appコンテナ内の操作用
 
@@ -35,7 +35,7 @@ setup:
 bash:
 	docker compose exec app bash
 
-migrate:
+new-migrate:
 	cd app/database && poetry run alembic revision -m "${NAME}"
 
 
@@ -45,7 +45,7 @@ new-migration:
 	@bash -c "cd app/database && poetry run alembic revision -m "${NAME}""
 
 app-migrate: # ○
-	@bash -c "cd app/database && poetry run alembic upgrade head"
+	docker compose exec app bash  -c "cd app/database && poetry run alembic upgrade head"
 
 app-drop:
 	@bash -c "cd app/database && poetry run alembic downgrade base"

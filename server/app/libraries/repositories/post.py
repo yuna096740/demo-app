@@ -29,7 +29,7 @@ class PostRepository:
         exist_post = db.scalar((
             select(PostOrm)
             .filter(PostOrm.id == id)
-        )).one_or_none()
+        ))
         
         if exist_post is None:
             new_post = PostOrm(

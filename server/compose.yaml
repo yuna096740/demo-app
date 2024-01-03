@@ -7,15 +7,15 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
+      - "8007:8007"
     working_dir: /app
-    command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8007 --reload
     depends_on:
       mysql:
         condition: service_healthy
 
   mysql:
-    container_name: demo-mysql
+    # container_name: demo-mysql
     build:
       dockerfile: ./.docker/local/mysql/Dockerfile
       context: .
